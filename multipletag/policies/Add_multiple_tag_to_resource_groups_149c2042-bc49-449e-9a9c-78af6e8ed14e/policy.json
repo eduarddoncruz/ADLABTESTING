@@ -1,0 +1,109 @@
+{
+ "properties": {
+  "displayName": "Add multiple tag to resource groups",
+  "policyType": "Custom",
+  "mode": "All",
+  "description": "Adds the specified tag and value when any resource group missing this tag is created or updated. Existing resource groups can be remediated by triggering a remediation task. If the tag exists with a different value it will not be changed.",
+  "metadata": {
+   "category": "Tags",
+   "createdBy": "193e1592-4789-4a63-94e8-815fda7a4e15",
+   "createdOn": "2020-12-07T06:32:08.6409364Z",
+   "updatedBy": null,
+   "updatedOn": null
+  },
+  "parameters": {
+   "tagName": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Tag Name",
+     "description": "Name of the tag, such as 'environment'"
+    }
+   },
+   "tagValue": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Tag Value",
+     "description": "Value of the tag, such as 'production'"
+    }
+   },
+   "tagName2": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Tag Name",
+     "description": "Name of the tag, such as 'environment'"
+    }
+   },
+   "tagValue2": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Tag Value",
+     "description": "Value of the tag, such as 'production'"
+    }
+   },
+   "tagName3": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Tag Name",
+     "description": "Name of the tag, such as 'environment'"
+    }
+   },
+   "tagValue3": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Tag Value",
+     "description": "Value of the tag, such as 'production'"
+    }
+   }
+  },
+  "policyRule": {
+   "if": {
+    "allOf": [
+     {
+      "field": "type",
+      "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+     },
+     {
+      "field": "[concat('tags[', parameters('tagName'), ']')]",
+      "exists": "false"
+     },
+     {
+      "field": "[concat('tags[', parameters('tagName2'), ']')]",
+      "exists": "false"
+     },
+     {
+      "field": "[concat('tags[', parameters('tagName3'), ']')]",
+      "exists": "false"
+     }
+    ]
+   },
+   "then": {
+    "effect": "modify",
+    "details": {
+     "roleDefinitionIds": [
+      "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+     ],
+     "operations": [
+      {
+       "operation": "add",
+       "field": "[concat('tags[', parameters('tagName'), ']')]",
+       "value": "[parameters('tagValue')]"
+      },
+      {
+       "operation": "add",
+       "field": "[concat('tags[', parameters('tagName2'), ']')]",
+       "value": "[parameters('tagValue2')]"
+      },
+      {
+       "operation": "add",
+       "field": "[concat('tags[', parameters('tagName3'), ']')]",
+       "value": "[parameters('tagValue3')]"
+      }
+     ]
+    }
+   }
+  }
+ },
+ "id": "/subscriptions/da2e9245-11b1-47f0-9b04-ef120b672dc3/providers/Microsoft.Authorization/policyDefinitions/149c2042-bc49-449e-9a9c-78af6e8ed14e",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "149c2042-bc49-449e-9a9c-78af6e8ed14e"
+}
